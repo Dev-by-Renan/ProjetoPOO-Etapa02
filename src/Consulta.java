@@ -1,62 +1,65 @@
-public class Consulta {
-    public String cpfPaciente;
-    public String nomeProfissional;
-    public String data;
-    public String horario;
-    public String tipo;
-    public String status;
+public class Consulta implements Agendavel, Exportavel {
 
-    // sem tipo - assume inicial
-    public Consulta(String cpfPaciente, String nomeProfissional, String data, String horario) {
-        this.cpfPaciente = cpfPaciente;
-        this.nomeProfissional = nomeProfissional;
+    private Paciente paciente;
+    private Profissional profissional;
+    private String data;
+    private String horario;
+    private String status;
+
+    public Consulta(Paciente paciente, Profissional profissional, Sting data, String horario) {
+        this.paciente = paciente;
+        this.profissional = profissional;
         this.data = data;
         this.horario = horario;
-        this.tipo = "inicial";
         this.status = "agendada";
     }
 
-    public Consulta(String cpfPaciente, String nomeProfissional, String data, String horario, String tipo) {
-        this.cpfPaciente = cpfPaciente;
-        this.nomeProfissional = nomeProfissional;
-        this.data = data;
-        this.horario = horario;
-        this.tipo = tipo;
+    @Override
+    public void agendar() {
         this.status = "agendada";
     }
 
-    // esse aqui a gente usa na remarcacao pra poder setar o status direto
-    public Consulta(String cpfPaciente, String nomeProfissional, String data,
-                    String horario, String tipo, String status) {
-        this.cpfPaciente = cpfPaciente;
-        this.nomeProfissional = nomeProfissional;
-        this.data = data;
-        this.horario = horario;
-        this.tipo = tipo;
-        this.status = status;
-    }
-
+    @Override
     public void cancelar() {
         this.status = "cancelada";
     }
 
-    // cancelar com motivo - retorna a msg formatada
-    public String cancelar(String motivo) {
-        this.status = "cancelada";
-        return "Consulta cancelada. Motivo: " + motivo;
-    }
-
+    @Override
     public void remarcar() {
         this.status = "remarcada";
     }
 
-    public void realizar() {
-        this.status = "realizada";
+    @Override
+    public String exportarDados() {
+        String cpf = (paciente != null) ? paciente.getCpf() : "null";
+        String reg = (profissional != null) ? profissional.getRegistroProfissional() : "null";
+        return "CONSULTA;" + cpf + ";" + reg + ";" + data + ";" + horario + ";" + status;
+    }
+    
+    public Paciente getPaciente() { return paciente; }
+    public void setPaciente(Paciente paciente) { this.paciente = paciente; }
+
+    public Profissional getProfissional() { return profissional; }
+    public void setProfissional(Profissional profissional) { this.profissional = profissional; }
+
+    public String getData() { return data; }
+
+    public void setData(String data) {
+        if (data == null || data.trim().isEmpty()) {
+            throw new IllegalArgumentException("Data invalida ou vazia.");
+        }
+        this.data = data;
     }
 
-    public String exibirResumo() {
-        return "Paciente(CPF): " + cpfPaciente + " | Prof: " + nomeProfissional
-                + " | Data: " + data + " | Hora: " + horario
-                + " | Tipo: " + tipo + " | Status: " + status;
+    public String getHorario() { return horario; }
+    public void setHorario(String horario) { this.horario = horario; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public String exibirResumo() { 
+        String nomeP = (paciente != null) ? paciente.getNome() : "N/A"
+        String nomeProf = (profissional != null) ? profissional.getNome() : "N/A"
+        return "Paciente: " + nomeP + " | Profissional: " + nomeProf + " | Data: " + data + " | Horario: " + horario + " | Status: " + status;
     }
 }
