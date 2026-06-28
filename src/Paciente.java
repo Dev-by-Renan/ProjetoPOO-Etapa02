@@ -28,18 +28,50 @@ public class Paciente extends Pessoa {
         this.convenioNome = convenioNome;
         this.ativo = true;
     }
+    
+    //getters e setters para todos os atributos privados de Paciente    
+public int getIdade() {
+    return idade;
+}
 
+public void setIdade(int idade) {
+    this.idade = idade;
+}
+
+public String getTelefone() {
+    return telefone;
+}
+
+public void setTelefone(String telefone) {
+    this.telefone = telefone;
+}
+
+public String getConvenioNome() {
+    return convenioNome;
+}
+
+public void setConvenioNome(String convenioNome) {
+    this.convenioNome = convenioNome;
+}
+
+public boolean isAtivo() {
+    return ativo;
+}
+
+public void setAtivo(boolean ativo) {
+    this.ativo = ativo;
+}
     // atualiza so idade e telefone
     public void complementar(int idade, String telefone) {
-        this.idade = idade;
-        this.telefone = telefone;
+        setIdade(idade);
+        setTelefone(telefone);
     }
 
     // atualiza tudo incluindo convenio
     public void complementar(int idade, String telefone, String convenioNome) {
-        this.idade = idade;
-        this.telefone = telefone;
-        this.convenioNome = convenioNome;
+        setIdade(idade);
+        setTelefone(telefone);
+        setConvenioNome(convenioNome);
     }
 
     public void desativar() {
@@ -52,8 +84,8 @@ public class Paciente extends Pessoa {
         if (!ativo) {
             status = "Nao";
         }
-        return "Nome: " + getNome() + " | CPF: " + getCpf() + " | Idade: " + idade
-                + " | Tel: " + telefone + " | Convenio: " + convenioNome
+        return "Nome: " + getNome() + " | CPF: " + getCpf() + " | Idade: " + getIdade()
+                + " | Tel: " + getTelefone() + " | Convenio: " + getConvenioNome()
                 + " | Ativo: " + status;
     }
 }
