@@ -25,7 +25,6 @@ public class Relatorio {
         System.out.println("\n=== RELATORIO - " + nomeProfissional + " ===");
         boolean achou = false;
         for (Consulta c : consultas) {
-            // acessa nome via getter do objeto Profissional (encapsulamento)
             if (c.getProfissional() != null &&
                 c.getProfissional().getNome().equals(nomeProfissional)) {
                 System.out.println(c.exibirResumo());
@@ -68,7 +67,6 @@ public class Relatorio {
         double totalFaturado = 0;
         double totalEmMultas = 0;
 
-        // acessa status via getter (encapsulamento)
         for (Consulta c : consultas) {
             if (c.getStatus().equals("realizada")) realizadas++;
             if (c.getStatus().equals("cancelada")) canceladas++;
@@ -90,10 +88,42 @@ public class Relatorio {
         System.out.println("Total em multas: R$" + Math.round(totalEmMultas * 100.0) / 100.0);
     }
 
+    // LIGACAO DINAMICA: percorre List<Pessoa> e chama exibirResumo() em cada elemento.
+    // O metodo executado depende do tipo REAL do objeto, nao do tipo da referencia.
+    // Jornada 15: relatorio unificado de cadastros com polimorfismo
+    public static void gerarRelatorioUnificado(List<Pessoa> pessoas) {
+        System.out.println("\n=== RELATORIO UNIFICADO DE CADASTROS ===");
+        int totalPacientes = 0;
+        int totalProfissionais = 0;
+
+        for (Pessoa p : pessoas) {
+            // LIGACAO DINAMICA: exibirResumo() do tipo real e chamado automaticamente
+            System.out.println(p.exibirResumo());
+
+            // DYNAMIC CASTING: identifica o tipo real para exibir informacoes extras
+            if (p instanceof Paciente) {
+                // cast seguro para acessar metodos especificos de Paciente
+                Paciente pac = (Paciente) p;
+                if (!pac.isAtivo()) {
+                    System.out.println("  [ATENCAO] Paciente inativo");
+                }
+                totalPacientes++;
+            } else if (p instanceof Profissional) {
+                // cast seguro para acessar metodos especificos de Profissional
+                Profissional prof = (Profissional) p;
+                System.out.println("  Especialidade: " + prof.getEspecialidade());
+                totalProfissionais++;
+            }
+            System.out.println("---");
+        }
+
+        System.out.println("Total de pacientes: " + totalPacientes);
+        System.out.println("Total de profissionais: " + totalProfissionais);
+    }
+
     // busca o diagnostico pelo objeto Consulta, acessando prontuario via getters
     public static String buscarDiagnostico(Consulta consulta, List<Atendimento> atendimentos) {
         for (Atendimento a : atendimentos) {
-            // compara o objeto consulta diretamente (sem indice)
             if (a.getConsulta() == consulta) {
                 return a.getProntuario().getDiagnostico();
             }
@@ -103,7 +133,7 @@ public class Relatorio {
 
     // compara datas convertendo para numero inteiro (AAAAMMDD)
     public static boolean estaNoIntervalo(String data, String inicio, String fim) {
-        int valorData  = converterDataParaNumero(data);
+        int valorData   = converterDataParaNumero(data);
         int valorInicio = converterDataParaNumero(inicio);
         int valorFim    = converterDataParaNumero(fim);
         return valorData >= valorInicio && valorData <= valorFim;
