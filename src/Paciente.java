@@ -5,8 +5,7 @@ public class Paciente extends Pessoa {
     private boolean ativo;
 
     public Paciente(String nome, String cpf) {
-        super(nome);
-        super(cpf);
+        super(nome, cpf);
         this.idade = 0;
         this.telefone = "";
         this.convenioNome = "";
@@ -14,8 +13,7 @@ public class Paciente extends Pessoa {
     }
 
     public Paciente(String nome, String cpf, int idade, String telefone) {
-        super(nome);
-        super(cpf);
+        super(nome, cpf);
         this.idade = idade;
         this.telefone = telefone;
         this.convenioNome = "";
@@ -24,8 +22,7 @@ public class Paciente extends Pessoa {
 
     // construtor com todos os dados
     public Paciente(String nome, String cpf, int idade, String telefone, String convenioNome) {
-        super(nome);
-        super(cpf);
+        super(nome, cpf);
         this.idade = idade;
         this.telefone = telefone;
         this.convenioNome = convenioNome;
@@ -49,13 +46,13 @@ public class Paciente extends Pessoa {
         this.ativo = false;
     }
 
-    @override
+    @Override
     public String exibirResumo() {
         String status = "Sim";
         if (!ativo) {
             status = "Nao";
         }
-        return "Nome: " + nome + " | CPF: " + cpf + " | Idade: " + idade
+        return "Nome: " + getNome() + " | CPF: " + getCpf() + " | Idade: " + idade
                 + " | Tel: " + telefone + " | Convenio: " + convenioNome
                 + " | Ativo: " + status;
     }
