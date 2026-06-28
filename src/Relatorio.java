@@ -102,14 +102,12 @@ public class Relatorio {
 
             // DYNAMIC CASTING: identifica o tipo real para exibir informacoes extras
             if (p instanceof Paciente) {
-                // cast seguro para acessar metodos especificos de Paciente
                 Paciente pac = (Paciente) p;
                 if (!pac.isAtivo()) {
                     System.out.println("  [ATENCAO] Paciente inativo");
                 }
                 totalPacientes++;
             } else if (p instanceof Profissional) {
-                // cast seguro para acessar metodos especificos de Profissional
                 Profissional prof = (Profissional) p;
                 System.out.println("  Especialidade: " + prof.getEspecialidade());
                 totalProfissionais++;
@@ -119,6 +117,62 @@ public class Relatorio {
 
         System.out.println("Total de pacientes: " + totalPacientes);
         System.out.println("Total de profissionais: " + totalProfissionais);
+    }
+
+    // Jornada 26: exportacao de dados operacionais
+    // LIGACAO DINAMICA: exportarDados() e chamado polimorficamente em cada Exportavel
+    // Consulta, Atendimento e Pagamento implementam a interface Exportavel
+    public static void exportarDados(List<Consulta> consultas,
+                                     List<Atendimento> atendimentos,
+                                     List<Pagamento> pagamentos) {
+        System.out.println("\n=== EXPORTACAO DE DADOS OPERACIONAIS ===");
+
+        System.out.println("\n-- Consultas --");
+        for (Consulta c : consultas) {
+            // polimorfismo via interface Exportavel
+            System.out.println(c.exportarDados());
+        }
+
+        System.out.println("\n-- Atendimentos --");
+        for (Atendimento a : atendimentos) {
+            System.out.println(a.exportarDados());
+        }
+
+        System.out.println("\n-- Pagamentos --");
+        for (Pagamento p : pagamentos) {
+            System.out.println(p.exportarDados());
+        }
+
+        System.out.println("\n=== FIM DA EXPORTACAO ===");
+    }
+
+    // Relatorio detalhado de pagamentos com tipo identificado via instanceof
+    // LIGACAO DINAMICA: calcularValorFinal() retorna valor diferente para cada subclasse
+    public static void gerarRelatorioPagamentos(List<Pagamento> pagamentos) {
+        System.out.println("\n=== RELATORIO DE PAGAMENTOS ===");
+        double totalGeral = 0;
+
+        for (Pagamento p : pagamentos) {
+            // DYNAMIC CASTING: identifica tipo real do pagamento para exibir detalhes
+            if (p instanceof PagamentoDinheiro) {
+                System.out.println("Tipo: Dinheiro/Pix");
+            } else if (p instanceof PagamentoCartao) {
+                PagamentoCartao pc = (PagamentoCartao) p;
+                System.out.println("Tipo: Cartao | Parcelas: " + pc.getParcelas() + "x");
+            } else if (p instanceof PagamentoConvenio) {
+                PagamentoConvenio pconv = (PagamentoConvenio) p;
+                System.out.println("Tipo: Convenio | Convenio: " + pconv.getNomeConvenio());
+            }
+
+            // LIGACAO DINAMICA: cada subclasse calcula o valor final de forma diferente
+            double valorFinal = p.calcularValorFinal();
+            System.out.println("  Valor base: R$" + p.getValorBase());
+            System.out.println("  Valor final: R$" + Math.round(valorFinal * 100.0) / 100.0);
+            System.out.println("---");
+            totalGeral += valorFinal;
+        }
+
+        System.out.println("Total geral recebido: R$" + Math.round(totalGeral * 100.0) / 100.0);
     }
 
     // busca o diagnostico pelo objeto Consulta, acessando prontuario via getters
