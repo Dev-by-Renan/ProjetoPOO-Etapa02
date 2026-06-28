@@ -1,13 +1,12 @@
-public class Paciente {
-    public String nome;
-    public String cpf;
-    public int idade;
-    public String telefone;
-    public String convenioNome;
-    public boolean ativo;
+public class Paciente extends Pessoa {
+    private String cpf;
+    private int idade;
+    private String telefone;
+    private String convenioNome;
+    private boolean ativo;
 
     public Paciente(String nome, String cpf) {
-        this.nome = nome;
+        super(nome);
         this.cpf = cpf;
         this.idade = 0;
         this.telefone = "";
@@ -16,7 +15,7 @@ public class Paciente {
     }
 
     public Paciente(String nome, String cpf, int idade, String telefone) {
-        this.nome = nome;
+        super(nome);
         this.cpf = cpf;
         this.idade = idade;
         this.telefone = telefone;
@@ -26,7 +25,7 @@ public class Paciente {
 
     // construtor com todos os dados
     public Paciente(String nome, String cpf, int idade, String telefone, String convenioNome) {
-        this.nome = nome;
+        super(nome);
         this.cpf = cpf;
         this.idade = idade;
         this.telefone = telefone;
@@ -51,6 +50,7 @@ public class Paciente {
         this.ativo = false;
     }
 
+    @override
     public String exibirResumo() {
         String status = "Sim";
         if (!ativo) {
