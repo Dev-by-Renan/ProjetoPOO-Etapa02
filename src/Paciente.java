@@ -1,11 +1,13 @@
 public class Paciente extends Pessoa {
+    private String cpf;
     private int idade;
     private String telefone;
     private String convenioNome;
     private boolean ativo;
 
     public Paciente(String nome, String cpf) {
-        super(nome, cpf);
+        super(nome);
+        this.cpf = "";
         this.idade = 0;
         this.telefone = "";
         this.convenioNome = "";
@@ -13,8 +15,8 @@ public class Paciente extends Pessoa {
     }
 
     public Paciente(String nome, String cpf, int idade, String telefone) {
-        super(nome, cpf);
-        this.idade = idade;
+        super(nome);
+        this.cpf = "";
         this.telefone = telefone;
         this.convenioNome = "";
         this.ativo = true;
@@ -22,14 +24,24 @@ public class Paciente extends Pessoa {
 
     // construtor com todos os dados
     public Paciente(String nome, String cpf, int idade, String telefone, String convenioNome) {
-        super(nome, cpf);
-        this.idade = idade;
+        super(nome);
+        this.cpf = "";
         this.telefone = telefone;
         this.convenioNome = convenioNome;
         this.ativo = true;
     }
     
-    //getters e setters para todos os atributos privados de Paciente    
+    //getters e setters para todos os atributos privados de Paciente   
+public String getCpf() {
+    return cpf;
+}
+
+public void setCpf(String cpf) {
+    if (cpf != null && !cpf.equals("")) {
+        this.cpf = cpf;
+    }
+}
+    
 public int getIdade() {
     return idade;
 }
