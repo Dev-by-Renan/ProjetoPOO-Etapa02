@@ -177,7 +177,7 @@ public class Main {
 
     public static int buscarIndicePaciente(String cpf) {
         for (int i = 0; i < totalPacientes; i++) {
-            if (pacientes[i].cpf.equals(cpf)) return i;
+            if (pacientes[i].getCpf().equals(cpf)) return i;
         }
         return -1;
     }
@@ -408,7 +408,7 @@ public static int buscarIndiceProfissional(String nome) {
             System.out.println("Paciente nao encontrado.");
             return;
         }
-        if (!pacientes[idxPac].ativo) {
+        if (!pacientes[idxPac].isAtivo()) {
             System.out.println("Paciente inativo. Nao e possivel agendar.");
             return;
         }
@@ -477,7 +477,7 @@ public static int buscarIndiceProfissional(String nome) {
             System.out.println("Paciente nao encontrado.");
             return;
         }
-        if (!pacientes[idxPac].ativo) {
+        if (!pacientes[idxPac].isAtivo()) {
             System.out.println("Paciente inativo. Nao e possivel agendar.");
             return;
         }
@@ -866,7 +866,7 @@ public static int buscarIndiceProfissional(String nome) {
         String cpfPac = consultas[idxConsulta].cpfPaciente;
         int idxPac = buscarIndicePaciente(cpfPac);
 
-        boolean temConvenio = !pacientes[idxPac].convenioNome.equals("");
+        boolean temConvenio = !pacientes[idxPac].getConvenioNome().equals("");
         boolean ehRetorno = consultas[idxConsulta].tipo.equals("retorno");
 
         double desconto = 0;
